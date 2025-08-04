@@ -3,7 +3,7 @@
 
 const config = {
   // API base URL
-  apiBaseUrl: 'http://localhost:5001',
+  apiBaseUrl: 'https://lawise-backend.onrender.com',
   
   // Other configuration settings can be added here
 };
