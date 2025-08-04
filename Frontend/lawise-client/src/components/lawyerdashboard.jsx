@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import config from '../config';
 
 const LawyerDashboard = () => {
   const [greeting, setGreeting] = useState('');
@@ -58,7 +59,7 @@ const LawyerDashboard = () => {
     Object.entries(lawyerInfo).forEach(([key, value]) => formData.append(key, value));
 
     try {
-      const response = await axios.post('http://localhost:5000/lawyer/lawyerinfo', formData, {
+      const response = await axios.post(`${config.apiBaseUrl}/lawyer/lawyerinfo`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       console.log('Lawyer info submitted:', response.data);
@@ -85,7 +86,7 @@ const LawyerDashboard = () => {
 
   const fetchClients = async (category) => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/clients/${encodeURIComponent(category)}`);
+      const response = await axios.get(`${config.apiBaseUrl}/api/clients/${encodeURIComponent(category)}`);
       setClients(response.data);
     } catch (error) {
       console.error("Error fetching clients:", error);
@@ -93,11 +94,16 @@ const LawyerDashboard = () => {
   };
 
   const handleVideoCall = (clientEmail, clientName) => {
-    axios.post('http://localhost:5000/clients/sendVideoCallLink', {
+    // Define the meeting link (same as in the backend)
+    const meetingLink = "https://meet.google.com/wty-sbdo-mqh";
+    
+    axios.post(`${config.apiBaseUrl}/clients/sendVideoCallLink`, {
       clientEmail,
       clientName
     }).then(() => {
       alert('📩 Video call link sent to the client.');
+      // Open the meeting in a new tab for the lawyer
+      window.open(meetingLink, '_blank');
     }).catch((error) => {
       console.error('Error sending email:', error);
       alert('❌ Failed to send video call link.');
@@ -147,9 +153,13 @@ const LawyerDashboard = () => {
             >
               <div className="h-48 overflow-hidden">
                 <img
-                  src={client.uploadedPhoto ? `http://localhost:5000/uploads/${client.uploadedPhoto.split('\\').pop()}` : '/default.jpg'}
+                  src={client.uploadedPhoto ? `${config.apiBaseUrl}/uploads/${client.uploadedPhoto.split('\\').pop()}` : '/default.jpg'}
                   alt="Client"
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/default.jpg';
+                  }}
                 />
               </div>
               <div className="p-5 space-y-2">

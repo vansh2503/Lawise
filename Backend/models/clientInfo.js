@@ -36,7 +36,7 @@ const clientInfoSchema = new mongoose.Schema({
     },
     caseCategory: {
         type: String,
-        enum: ['Corporate Law', 'Family Law', 'Criminal Defense'],
+        enum: ['Corporate Law', 'Family Law', 'Criminal Defense', 'Civil Litigation'],
         required: true,
     },
 });

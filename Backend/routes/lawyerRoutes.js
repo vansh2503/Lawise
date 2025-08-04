@@ -8,5 +8,6 @@ const upload = multer({ dest: 'uploads/' }); // Ensure 'uploads' folder exists
 
 router.post('/lawyerinfo', upload.single('uploadedPhoto'), lawyerController.createLawyerInfo);
 router.get('/lawyerinfo/:id', lawyerController.getLawyerInfo);
+router.get('/all', lawyerController.getAllLawyers);
 
 module.exports = router;

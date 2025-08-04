@@ -12,9 +12,7 @@ const nodemailer = require('nodemailer');
 
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true, // true for 465, false for other ports
+    service: 'gmail',
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
@@ -42,5 +40,5 @@ const sendLoginNotification = (email) => {
 };
 
 module.exports = { sendLoginNotification };
-// Test sendLoginNotification directly
-sendLoginNotification("sad314858@gmail.com");
+// Uncomment the line below to test the email functionality
+sendLoginNotification(process.env.EMAIL_USER);

@@ -190,9 +190,9 @@ const LandingPage = () => {
       <footer className="py-8 bg-gray-100 dark:bg-gray-900 text-center text-gray-800 dark:text-white" id="contact">
         <p>&copy; {new Date().getFullYear()} Lawise. All rights reserved.</p>
         <div className="mt-2 flex justify-center gap-4 text-sm">
-          <a href="#" className="hover:underline">Privacy Policy</a>
-          <a href="#" className="hover:underline">Terms</a>
-          <a href="#" className="hover:underline">Contact</a>
+          <a href="/privacy-policy" className="hover:underline">Privacy Policy</a>
+          <a href="/terms" className="hover:underline">Terms</a>
+          <a href="/contact" className="hover:underline">Contact</a>
         </div>
       </footer>
 

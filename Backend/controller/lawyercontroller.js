@@ -39,3 +39,13 @@ exports.getLawyerInfo = async (req, res) => {
         res.status(500).json({ message: "Error fetching lawyer info", error });
     }
 };
+
+exports.getAllLawyers = async (req, res) => {
+    try {
+        const lawyers = await Lawyer.find();
+        res.status(200).json(lawyers);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error fetching lawyers", error });
+    }
+};

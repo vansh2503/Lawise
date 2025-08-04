@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import config from '../config';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../context/authcontext';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +12,8 @@ const Signup = () => {
     role: 'client',
   });
   const [status, setStatus] = useState({ loading: false, error: '', message: '' });
+  const navigate = useNavigate();
+  const { signup } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,9 +24,26 @@ const Signup = () => {
     e.preventDefault();
     setStatus({ loading: true, error: '', message: '' });
     try {
-      await axios.post('http://localhost:5000/signup', formData);
-      setStatus({ loading: false, message: '🎉 You’re all set! Account created.', error: '' });
-      setFormData({ name: '', email: '', password: '', role: 'client' });
+      const success = await signup(formData.name, formData.email, formData.password, formData.role);
+      
+      if (success) {
+        setStatus({ loading: false, message: '🎉 You\'re all set! Account created.', error: '' });
+        setFormData({ name: '', email: '', password: '', role: 'client' });
+        
+        // Show success message briefly before redirecting
+        setTimeout(() => {
+          // Redirect based on role
+          if (formData.role === 'admin') navigate('/admin-dashboard');
+          else if (formData.role === 'lawyer') navigate('/lawyer-dashboard');
+          else navigate('/client-dashboard');
+        }, 1500); // Wait 1.5 seconds so user can see the success message
+      } else {
+        setStatus({
+          loading: false,
+          message: '',
+          error: 'Failed to create account. Please try again.',
+        });
+      }
     } catch (err) {
       setStatus({
         loading: false,

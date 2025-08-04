@@ -6,7 +6,11 @@ const lawyerSchema = new mongoose.Schema({
     name: { type: String, required: true },
     phoneNumber: { type: String, required: true },
     address: { type: String, required: true },
-    caseCategory: { type: String, required: true },
+    caseCategory: { 
+        type: String, 
+        enum: ['Corporate Law', 'Family Law', 'Criminal Defense', 'Civil Litigation', 'Intellectual Property'],
+        required: true 
+    },
     uploadedPhoto: { type: String }, // URL or path to the uploaded photo
     //caseDetailsPDF: { type: String } // URL or path to the uploaded PDF
 }, { timestamps: true });

@@ -11,7 +11,7 @@ const lawyerRoutes = require('./routes/lawyerRoutes');
 const caseFilterRoutes = require('./routes/caseFilter');
 // Initialize app
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const clientRoutes = require('./routes/clients'); // Assuming the above code is in "clients.js"
 
 
@@ -21,10 +21,7 @@ app.use(express.json()); // For parsing application/json
 app.use('/clients', clientRoutes);
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, { 
-    useNewUrlParser: true, 
-    useUnifiedTopology: true 
-})
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('MongoDB connected successfully'))
 .catch(err => console.error('MongoDB connection error:', err));
 
@@ -36,6 +33,8 @@ mongoose.connect(process.env.MONGO_URI, {
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
+// Remove duplicate app.listen call
 
 
 app.use(express.urlencoded({ extended: true })); 

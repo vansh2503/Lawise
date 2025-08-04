@@ -16,7 +16,7 @@ console.log('Request body:', req.body);
   
 
   // Generate a unique video call link (you can customize this logic)
-  const meetingLink = `https://meet.google.com/qwx-vjai-eky`;
+  const meetingLink = `https://meet.google.com/wty-sbdo-mqh`;
 
   // Nodemailer setup and sending email logic
   const transporter = nodemailer.createTransport({

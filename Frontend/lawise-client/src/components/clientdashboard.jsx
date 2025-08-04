@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import config from '../config';
 import { FaUserShield, FaBalanceScale, FaGavel, FaBuilding } from 'react-icons/fa';
 
 const iconsMap = {
@@ -24,7 +25,9 @@ const ClientDashboard = () => {
     caseCategory: '',
     uploadedPhoto: null
   });
+  // eslint-disable-next-line no-unused-vars
   const [uploadedPhotoPreview, setUploadedPhotoPreview] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [profilePic, setProfilePic] = useState('');
   const [caseCategories] = useState([
     "Corporate Law",
@@ -69,6 +72,7 @@ const ClientDashboard = () => {
     setClientInfo({ ...clientInfo, caseDetailsPDF: file });
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleProfilePicUpload = (e) => {
     const file = e.target.files[0];
     if (!file || !['image/jpeg', 'image/png'].includes(file.type)) {
@@ -84,7 +88,7 @@ const ClientDashboard = () => {
     Object.entries(clientInfo).forEach(([key, value]) => formData.append(key, value));
 
     try {
-      await axios.post('http://localhost:5000/clientinfo/clientinfo', formData, {
+      await axios.post(`${config.apiBaseUrl}/clientinfo/clientinfo`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setShowForm(false);
@@ -104,7 +108,7 @@ const ClientDashboard = () => {
       alert("Please select a category first.");
       return;
     }
-    axios.get(`http://localhost:5000/api/lawyers/${encodeURIComponent(clientInfo.caseCategory)}`)
+    axios.get(`${config.apiBaseUrl}/api/lawyers/${encodeURIComponent(clientInfo.caseCategory)}`)
       .then(res => setLawyers(res.data))
       .catch(err => {
         alert("Error fetching lawyers.");
@@ -194,9 +198,13 @@ const ClientDashboard = () => {
             {lawyers.map(lawyer => (
               <div key={lawyer._id} className="bg-white p-5 rounded-lg shadow border">
                 <img
-                  src={lawyer.uploadedPhoto ? `http://localhost:5000/uploads/${lawyer.uploadedPhoto.split('\\').pop()}` : '/default.jpg'}
+                  src={lawyer.uploadedPhoto ? `${config.apiBaseUrl}/uploads/${lawyer.uploadedPhoto.split('\\').pop()}` : '/default.jpg'}
                   alt="Lawyer"
                   className="w-full h-40 object-cover rounded mb-3"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = '/default.jpg';
+                  }}
                 />
                 <h4 className="text-lg font-bold text-gray-800">{lawyer.name}</h4>
                 <p className="text-sm text-gray-600">Email: {lawyer.email}</p>
