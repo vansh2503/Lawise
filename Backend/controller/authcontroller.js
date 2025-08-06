@@ -54,7 +54,7 @@ const signup = async (req, res) => {
 */
 
 const login = async (req, res) => {
-    console.log("control login function tak pahuch gya");
+    console.log("control reached login function");
     const { email, password } = req.body;
 
     try {
