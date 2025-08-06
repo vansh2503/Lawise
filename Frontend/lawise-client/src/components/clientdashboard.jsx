@@ -201,6 +201,7 @@ const ClientDashboard = () => {
                   src={lawyer.uploadedPhoto ? `${config.apiBaseUrl}/uploads/${lawyer.uploadedPhoto.split('\\').pop()}` : '/default.jpg'}
                   alt="Lawyer"
                   className="w-full h-40 object-cover rounded mb-3"
+                  style={{ objectFit: 'cover', width: '100%', height: '200px' }}
                   onError={(e) => {
                     e.target.onerror = null;
                     e.target.src = '/default.jpg';
